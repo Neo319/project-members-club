@@ -3,10 +3,14 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 
 const db = require("../db/queries");
+const passport = require("passport");
 
 // --- render homepage on GET. ---
 exports.index_get = asyncHandler((req, res, next) => {
-  res.render("index", { title: "Project Members Club" });
+  res.render("index", {
+    title: "Project Members Club",
+    user: req.user || null,
+  });
 });
 
 // --- render sign-up page on GET. ---
@@ -86,4 +90,18 @@ exports.sign_up_post = [
 // --- Login page GET. ---
 exports.login_get = asyncHandler((req, res, next) => {
   res.render("login", { title: "Log In" });
+});
+
+// --- POST login request. ---
+exports.login_post = asyncHandler((req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.redirect("/login"); // Redirect to login if authentication fails
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/"); // Redirect to home or intended page on success
+    });
+  })(req, res, next); // Important to call this function with req, res, next
 });

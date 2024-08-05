@@ -8,10 +8,8 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
-//dependencies for later
 const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const passport = require("./passport-config"); // Import Passport config
 
 var app = express();
 //
@@ -45,54 +43,21 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
-
-  //
-
-  // --- set up passport. ---
-  passport.use(
-    new LocalStrategy(async (username, password, done) => {
-      try {
-        const { rows } = await pool.query(
-          "SELECT * FROM users WHERE username = $1",
-          [username]
-        );
-        const user = rows[0];
-
-        if (!user) {
-          return done(null, false, { message: "Incorrect username" });
-        }
-        if (user.password !== password) {
-          return done(null, false, { message: "Incorrect password" });
-        }
-        return done(null, user);
-      } catch (err) {
-        return done(err);
-      }
-    })
-  );
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-        id,
-      ]);
-      const user = rows[0];
-
-      done(null, user);
-    } catch (err) {
-      done(err);
-    }
-  });
 });
 
-// --- middleware for storing user---
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
+// --- passport setup ---
+
+// Set up session middleware
+app.use(
+  session({
+    secret: "your-session-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize Passport and restore authentication state
+app.use(passport.initialize());
+app.use(passport.session());
 
 module.exports = app;
