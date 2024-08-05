@@ -113,3 +113,11 @@ exports.logout_get = asyncHandler((req, res, next) => {
     user: null,
   });
 });
+
+// --- Membership form GET. ---
+exports.membership_get = asyncHandler((req, res, next) => {
+  res.render("membership_form", {
+    title: "Become a Member",
+    user: req.user || null,
+  });
+});

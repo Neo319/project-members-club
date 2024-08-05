@@ -20,4 +20,6 @@ router.post("/login", userController.login_post);
 
 router.get("/logout", userController.logout_get);
 
+router.get("/membership", userController.membership_get);
+
 module.exports = router;
