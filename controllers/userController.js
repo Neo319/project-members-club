@@ -82,3 +82,8 @@ exports.sign_up_post = [
     });
   },
 ];
+
+// --- Login page GET. ---
+exports.login_get = asyncHandler((req, res, next) => {
+  res.render("login", { title: "Log In" });
+});
