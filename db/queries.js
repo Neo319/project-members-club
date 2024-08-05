@@ -2,16 +2,15 @@ const pool = require("./pool");
 
 async function insertUser(user) {
   try {
-    await pool.query(`INSERT INTO users VALUES ($1, $2, $3, $4, $5)`, [
-      user.first_name,
-      user.last_name,
-      user.username,
-      user.password,
-      user.membership_status,
-      user.admin,
-    ]);
+    const result = await pool.query(
+      `INSERT INTO users (first_name, last_name, username, password) 
+       VALUES ($1, $2, $3, $4) 
+       RETURNING id`,
+      [user.first_name, user.last_name, user.username, user.password]
+    );
+    return result.rows[0].id; // Return the newly inserted user ID
   } catch (err) {
-    console.error("error inserting user", err);
+    console.error("Error inserting user:", err);
     throw err;
   }
 }

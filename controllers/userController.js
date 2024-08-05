@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 const db = require("../db/queries");
 
@@ -43,7 +45,7 @@ exports.sign_up_post = [
     .withMessage("Password must not be empty")
     .escape()
     .custom((value, { req }) => {
-      if (value === req.body.password) {
+      if (value !== req.body.password) {
         throw new Error("Confirm password must match the password");
       }
       return true;
@@ -52,7 +54,7 @@ exports.sign_up_post = [
   //asynchronously sign up to db if valid
   async function (req, res, next) {
     //ensure no errors
-    const errors = validationResult;
+    const errors = validationResult(req);
     if (errors.length) {
       throw new Error("Error creating new user", errors);
     }
@@ -60,11 +62,13 @@ exports.sign_up_post = [
     bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
       if (err) {
         console.log("bcrypt error");
-        return null;
+        return next(err);
       }
 
       try {
         const user = {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
           username: req.body.username,
           password: hashedPassword,
         };
