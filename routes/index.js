@@ -7,7 +7,7 @@ const passport = require("passport");
 
 const userController = require("../controllers/userController");
 
-/* GET home page. */
+// --- routes ---
 router.get("/", userController.index_get);
 
 router.get("/sign-up", userController.sign_up_get);

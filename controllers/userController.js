@@ -1,18 +1,20 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const passport = require("passport");
 
 const db = require("../db/queries");
 
+// --- render homepage on GET. ---
 exports.index_get = asyncHandler((req, res, next) => {
-  res.render("index", { title: "Express" });
+  res.render("index", { title: "Project Members Club" });
 });
 
+// --- render sign-up page on GET. ---
 exports.sign_up_get = asyncHandler((req, res, next) => {
   res.render("sign-up-form", { title: "Join the Club" });
 });
 
+// --- POST new user to database. ---
 exports.sign_up_post = [
   //validate & sanitize
   body("first_name")
