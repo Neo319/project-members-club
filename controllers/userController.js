@@ -105,3 +105,11 @@ exports.login_post = asyncHandler((req, res, next) => {
     });
   })(req, res, next); // Important to call this function with req, res, next
 });
+
+// --- Logout GET. ---
+exports.logout_get = asyncHandler((req, res, next) => {
+  res.render("index", {
+    title: "Project Members Club",
+    user: null,
+  });
+});

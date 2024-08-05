@@ -9,11 +9,13 @@
     <p>Welcome to <%= title %></p>
 
     <a href="/sign-up">Sign up</a> <br />
-    <a href="/login">Log In</a>
+    <a href="/login">Log In</a> <br />
 
     <% if (user) {%>
     <p>logged in as user:</p>
     <p><%= JSON.stringify(user)%></p>
+    <br />
+    <a href="/logout">Log out</a>
     <% } else {%>
     <p>Not currently logged in.</p>
     <% } %>
