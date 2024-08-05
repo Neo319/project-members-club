@@ -8,5 +8,18 @@
   <body>
     <h1><%= title %></h1>
     <p>Membership form goes here</p>
+    <% if (typeof user !== 'undefined' && user !== null) { %>
+      <p>Logged in as user:
+        <p><%= JSON.stringify(user) %></p>
+      </p>
+      <form method="POST">
+        <label for="code">SECRET PASSCODE: </label>
+        <input type="text" name="code" />
+        <button type="submit">Authenticate</button>
+      </form>
+    <% } else { %>
+      <p>Not logged in!</p>
+    <% } %>
+    <a href="/">Return to homepage...</a>
   </body>
 </html>

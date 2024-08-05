@@ -22,4 +22,6 @@ router.get("/logout", userController.logout_get);
 
 router.get("/membership", userController.membership_get);
 
+router.post("/membership", userController.membership_post);
+
 module.exports = router;

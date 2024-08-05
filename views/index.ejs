@@ -11,7 +11,7 @@
     <a href="/sign-up">Sign up</a> <br />
     <a href="/login">Log In</a> <br />
 
-    <% if (user) {%>
+    <% if ( typeof user !== 'undefined' && user !== null) {%>
     <p>logged in as user:</p>
     <p><%= JSON.stringify(user)%></p>
     <br />

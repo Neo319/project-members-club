@@ -15,6 +15,19 @@ async function insertUser(user) {
   }
 }
 
+async function addMembership(user) {
+  try {
+    const result = await pool.query(
+      `UPDATE USERS SET membership_status = true WHERE id = $1`,
+      [user.id]
+    );
+  } catch (err) {
+    console.error("Error adding member:", err);
+    throw err;
+  }
+}
+
 module.exports = {
   insertUser,
+  addMembership,
 };

@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const db = require("../db/queries");
 const passport = require("passport");
 
+//secret
+const PASSCODE = process.env.PASSCODE;
+
 // --- render homepage on GET. ---
 exports.index_get = asyncHandler((req, res, next) => {
   res.render("index", {
@@ -88,12 +91,12 @@ exports.sign_up_post = [
 ];
 
 // --- Login page GET. ---
-exports.login_get = asyncHandler((req, res, next) => {
+exports.login_get = (req, res, next) => {
   res.render("login", { title: "Log In" });
-});
+};
 
 // --- POST login request. ---
-exports.login_post = asyncHandler((req, res, next) => {
+exports.login_post = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
     if (!user) {
@@ -104,20 +107,45 @@ exports.login_post = asyncHandler((req, res, next) => {
       return res.redirect("/"); // Redirect to home or intended page on success
     });
   })(req, res, next); // Important to call this function with req, res, next
-});
+};
 
 // --- Logout GET. ---
-exports.logout_get = asyncHandler((req, res, next) => {
+exports.logout_get = (req, res, next) => {
   res.render("index", {
     title: "Project Members Club",
     user: null,
   });
-});
+};
 
 // --- Membership form GET. ---
-exports.membership_get = asyncHandler((req, res, next) => {
+exports.membership_get = (req, res, next) => {
   res.render("membership_form", {
     title: "Become a Member",
     user: req.user || null,
   });
-});
+};
+
+// --- POST Membership form. ---
+exports.membership_post = [
+  //validate and sanitize
+  body("passcode").trim().escape(),
+
+  asyncHandler((req, res, next) => {
+    const errors = validationResult;
+
+    if (errors.length) {
+      console.error("unknown errors", errors);
+      res.redirect("/membership");
+    } else {
+      console.log("validation passed");
+
+      if (req.body.code !== PASSCODE) {
+        alert("Inputted value must match the correct passcode.");
+        next();
+      } else {
+        console.log("correct passcode");
+        res.redirect("/");
+      }
+    }
+  }),
+];
