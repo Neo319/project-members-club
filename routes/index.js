@@ -24,4 +24,8 @@ router.get("/membership", userController.membership_get);
 
 router.post("/membership", userController.membership_post);
 
+router.get("/message", userController.message_get);
+
+router.post("/message", userController.message_post);
+
 module.exports = router;

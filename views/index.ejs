@@ -15,7 +15,13 @@
     <p>logged in as user:</p>
     <p><%= JSON.stringify(user)%></p>
     <br />
+
+    <% if (user.membership_status === true) { %>
+    <p>--- YOU ARE A MEMBER ---</p>
+    <% } else { %>
     <a href="/membership">Become a Member!</a> <br />
+    <% } %>
+
     <a href="/logout">Log out</a>
     <% } else {%>
     <p>Not currently logged in.</p>
@@ -23,6 +29,11 @@
 
     <div>
       <p>message board goes here ... (WIP)</p>
+      <% if (typeof user !== 'undefined' && user !== null) { %>
+      <form action="/message" method="get">
+        <button type="submit">Create New Message</button>
+      </form>
+      <% } %>
     </div>
   </body>
 </html>

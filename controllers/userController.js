@@ -156,6 +156,8 @@ exports.membership_post = [
           await db.addMembership(user);
           console.log("added membership!");
           res.redirect("/");
+
+          //error handling
         } catch (err) {
           console.error("error adding membership", err);
           throw err;
@@ -167,3 +169,13 @@ exports.membership_post = [
     }
   }),
 ];
+
+// retrieve message form on GET.
+exports.message_get = function (req, res, next) {
+  res.render("message", { title: "Create New Message", user: req.user });
+};
+
+// POST new messages.
+exports.message_post = function (req, res, next) {
+  res.send("NOT IMPLEMENTED: message POST");
+};
