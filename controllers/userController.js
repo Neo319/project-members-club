@@ -113,12 +113,15 @@ exports.login_post = (req, res, next) => {
 };
 
 // --- Logout GET. ---
-exports.logout_get = (req, res, next) => {
+exports.logout_get = asyncHandler(async (req, res, next) => {
+  const messagesResult = await db.getMessages();
+
   res.render("index", {
     title: "Project Members Club",
     user: null,
+    messages: messagesResult,
   });
-};
+});
 
 // --- Membership form GET. ---
 exports.membership_get = (req, res, next) => {

@@ -10,9 +10,6 @@
   <h1><%= title %></h1>
   <p>Welcome to <%= title %></p>
 
-  <a href="/sign-up">Sign up</a> <br />
-  <a href="/login">Log In</a> <br />
-
   <% if (typeof user !== 'undefined' && user !== null) { %>
   <p>Logged in as user:</p>
   <p><%= JSON.stringify(user) %></p>
@@ -27,6 +24,8 @@
   <a href="/logout">Log out</a>
   <% } else { %>
   <p>Not currently logged in.</p>
+  <a href="/sign-up">Sign up</a> <br />
+  <a href="/login">Log In</a> <br />
   <% } %>
 
   <div>
@@ -42,13 +41,15 @@
     <ul>
       <% messages.forEach((message) => { %>
       <li>
-        <span><i><%= message.date.toUTCString() %></i></span>
         <p><%= message.message %></p>
 
         <% if (typeof user !== 'undefined' && user !== null &&
           user.membership_status === true) { %>
         <b>
-          <p>Poster : <%= message.first_name %></p>
+          <p>Message Date: <%= message.date.toUTCString() %>
+            <br />
+            Message Poster : <%= message.first_name %>
+          </p>
         </b>
         <% } %>
       </li>
