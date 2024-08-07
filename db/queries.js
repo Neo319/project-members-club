@@ -32,7 +32,10 @@ async function addMembership(user) {
 async function getMessages() {
   try {
     //s
-    const { rows } = await pool.query(`SELECT * FROM messages`);
+    const { rows } = await pool.query(
+      `SELECT message, date, first_name FROM messages
+      INNER JOIN users ON messages.poster_id = users.id`
+    );
 
     //toDo: retrieve poster names
 

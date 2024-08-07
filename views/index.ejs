@@ -48,7 +48,7 @@
         <% if (typeof user !== 'undefined' && user !== null &&
           user.membership_status === true) { %>
         <b>
-          <p>Poster : (is displayed. WIP)</p>
+          <p>Poster : <%= message.first_name %></p>
         </b>
         <% } %>
       </li>
