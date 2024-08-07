@@ -1,45 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
-    <a href="/sign-up">Sign up</a> <br />
-    <a href="/login">Log In</a> <br />
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
 
-    <% if ( typeof user !== 'undefined' && user !== null) {%>
-    <p>logged in as user:</p>
-    <p><%= JSON.stringify(user)%></p>
-    <br />
+<body>
+  <h1><%= title %></h1>
+  <p>Welcome to <%= title %></p>
 
-    <% if (user.membership_status === true) { %>
-    <p>--- YOU ARE A MEMBER ---</p>
+  <a href="/sign-up">Sign up</a> <br />
+  <a href="/login">Log In</a> <br />
+
+  <% if (typeof user !== 'undefined' && user !== null) { %>
+  <p>Logged in as user:</p>
+  <p><%= JSON.stringify(user) %></p>
+  <br />
+
+  <% if (user.membership_status === true) { %>
+  <p>--- YOU ARE A MEMBER ---</p>
+  <% } else { %>
+  <a href="/membership">Become a Member!</a> <br />
+  <% } %>
+
+  <a href="/logout">Log out</a>
+  <% } else { %>
+  <p>Not currently logged in.</p>
+  <% } %>
+
+  <div>
+    <h1>Message Board</h1>
+    <hr />
+
+    <% if (typeof user !== 'undefined' && user !== null) { %>
+    <form action="/message" method="get">
+      <button type="submit">Create New Message</button>
+    </form>
+    <% } %> <% if (typeof messages !== 'undefined' && messages !== null &&
+      messages.length) { %>
+    <ul>
+      <% messages.forEach((message) => { %>
+      <li>
+        <span><i><%= message.date.toUTCString() %></i></span>
+        <p><%= message.message %></p>
+
+        <% if (typeof user !== 'undefined' && user !== null &&
+          user.membership_status === true) { %>
+        <b>
+          <p>Poster : (is displayed. WIP)</p>
+        </b>
+        <% } %>
+      </li>
+      <% }) %>
+    </ul>
     <% } else { %>
-    <a href="/membership">Become a Member!</a> <br />
+    <p>Messages Not Found!</p>
     <% } %>
+  </div>
+</body>
 
-    <a href="/logout">Log out</a>
-    <% } else {%>
-    <p>Not currently logged in.</p>
-    <% } %>
-
-    <div>
-      <p>message board goes here ... (WIP)</p>
-      <% if (typeof user !== 'undefined' && user !== null) { %>
-      <form action="/message" method="get">
-        <button type="submit">Create New Message</button>
-      </form>
-      <% } %> <% if (typeof messages !== 'undefined' && messages !== null) { %>
-      <!-- display message board -->
-      <p>debug: messages = <%= JSON.stringify(messages) %></p>
-
-      <% } else { %>
-      <p>Messages Not Found!</p>
-      <% } %>
-    </div>
-  </body>
 </html>
