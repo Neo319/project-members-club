@@ -130,7 +130,7 @@ exports.membership_post = [
   //validate and sanitize
   body("passcode").trim().escape(),
 
-  asyncHandler((req, res, next) => {
+  asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
 
     if (errors.length) {
@@ -145,10 +145,25 @@ exports.membership_post = [
       if (req.body.code === PASSCODE) {
         console.log("code is correct");
         console.log("validation PASSED");
+
+        //update membership status
+        //addMembership(user)
+
+        try {
+          const user = req.user;
+          console.log(user);
+
+          await db.addMembership(user);
+          console.log("added membership!");
+          res.redirect("/");
+        } catch (err) {
+          console.error("error adding membership", err);
+          throw err;
+        }
       }
       console.log("validation complete");
 
-      res.redirect("/");
+      res.redirect("/membership");
     }
   }),
 ];
