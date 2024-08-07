@@ -33,6 +33,12 @@
       <form action="/message" method="get">
         <button type="submit">Create New Message</button>
       </form>
+      <% } %> <% if (typeof messages !== 'undefined' && messages !== null) { %>
+      <!-- display message board -->
+      <p>debug: messages = <%= JSON.stringify(messages) %></p>
+
+      <% } else { %>
+      <p>Messages Not Found!</p>
       <% } %>
     </div>
   </body>

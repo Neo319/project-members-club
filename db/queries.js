@@ -27,7 +27,24 @@ async function addMembership(user) {
   }
 }
 
+// ------ render messages ------
+
+async function getMessages() {
+  try {
+    //s
+    const { rows } = await pool.query(`SELECT * FROM messages`);
+
+    //toDo: retrieve poster names
+
+    return rows;
+  } catch (err) {
+    console.error("error rendering messages", err);
+    throw err;
+  }
+}
+
 module.exports = {
   insertUser,
   addMembership,
+  getMessages,
 };

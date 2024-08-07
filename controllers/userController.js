@@ -9,10 +9,13 @@ const passport = require("passport");
 const PASSCODE = process.env.PASSCODE;
 
 // --- render homepage on GET. ---
-exports.index_get = asyncHandler((req, res, next) => {
+exports.index_get = asyncHandler(async (req, res, next) => {
+  const messagesResult = await db.getMessages();
+
   res.render("index", {
     title: "Project Members Club",
     user: req.user || null,
+    messages: messagesResult,
   });
 });
 
