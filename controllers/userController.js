@@ -131,21 +131,24 @@ exports.membership_post = [
   body("passcode").trim().escape(),
 
   asyncHandler((req, res, next) => {
-    const errors = validationResult;
+    const errors = validationResult(req);
 
     if (errors.length) {
-      console.error("unknown errors", errors);
+      //checking that there was no error
+      console.log("errors found:");
+      console.log(errors.array());
       res.redirect("/membership");
     } else {
-      console.log("validation passed");
-
-      if (req.body.code !== PASSCODE) {
-        alert("Inputted value must match the correct passcode.");
-        next();
-      } else {
-        console.log("correct passcode");
-        res.redirect("/");
+      //checking that the code is correct
+      console.log("code expected : " + PASSCODE);
+      console.log("code recieved : " + req.body.code);
+      if (req.body.code === PASSCODE) {
+        console.log("code is correct");
+        console.log("validation PASSED");
       }
+      console.log("validation complete");
+
+      res.redirect("/");
     }
   }),
 ];
