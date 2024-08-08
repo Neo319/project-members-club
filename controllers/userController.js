@@ -157,9 +157,14 @@ exports.membership_post = [
 
         try {
           const user = req.user;
+
+          const isAdmin = req.body.admin;
+          console.log(typeof isAdmin);
+          console.log(isAdmin);
+
           console.log(user);
 
-          await db.addMembership(user);
+          await db.addMembership(user, isAdmin);
           console.log("added membership!");
           res.redirect("/");
 

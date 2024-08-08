@@ -15,12 +15,19 @@ async function insertUser(user) {
   }
 }
 
-async function addMembership(user) {
+async function addMembership(user, isAdmin) {
   try {
-    const result = await pool.query(
-      `UPDATE USERS SET membership_status = true WHERE id = $1`,
-      [user.id]
-    );
+    if (isAdmin) {
+      await pool.query(
+        `UPDATE USERS SET admin = true, membership_status = true WHERE id = $1`,
+        [user.id]
+      );
+    } else {
+      await pool.query(
+        `UPDATE USERS SET membership_status = true WHERE id = $1`,
+        [user.id]
+      );
+    }
   } catch (err) {
     console.error("Error adding member:", err);
     throw err;
