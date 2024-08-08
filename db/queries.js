@@ -31,13 +31,10 @@ async function addMembership(user) {
 
 async function getMessages() {
   try {
-    //s
     const { rows } = await pool.query(
       `SELECT message, date, first_name FROM messages
       INNER JOIN users ON messages.poster_id = users.id`
     );
-
-    //toDo: retrieve poster names
 
     return rows;
   } catch (err) {
@@ -46,8 +43,21 @@ async function getMessages() {
   }
 }
 
+async function postMessage(message) {
+  try {
+    await pool.query(
+      `INSERT INTO messages (message, poster_id) VALUES ($1, $2)`,
+      [message.message, message.poster_id]
+    );
+  } catch (err) {
+    console.error("error inserting message", err);
+    throw err;
+  }
+}
+
 module.exports = {
   insertUser,
   addMembership,
   getMessages,
+  postMessage,
 };

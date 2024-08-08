@@ -182,6 +182,25 @@ exports.message_get = function (req, res, next) {
 };
 
 // POST new messages.
-exports.message_post = function (req, res, next) {
-  res.send("NOT IMPLEMENTED: message POST");
-};
+exports.message_post = [
+  body("message").trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.error("error posting message.", errors.array());
+      return false;
+    }
+
+    // no errors: post message to db
+
+    const message = {
+      message: req.body.message,
+      poster_id: req.user.id,
+    };
+
+    await db.postMessage(message);
+    res.redirect("/");
+  }),
+];
