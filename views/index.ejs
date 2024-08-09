@@ -50,6 +50,11 @@
           <p>Message Date: <%= message.date.toUTCString() %>
             <br />
             Message Poster : <%= message.first_name %>
+            <br />
+            <% if (user.admin) { %>
+            <a href="/delete/<%= message.message_id %>">Delete this message</a>
+            </form>
+            <% } %>
           </p>
 
         </b>

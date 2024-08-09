@@ -214,7 +214,8 @@ exports.message_post = [
 exports.index_delete = asyncHandler(async (req, res) => {
   const messageId = req.params.id;
 
-  await db.deleteMessage(messageId);
+  console.log(messageId + " is to be deleted");
+  // await db.deleteMessage(messageId);
 
   res.redirect("/");
 });
