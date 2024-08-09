@@ -1,8 +1,8 @@
 //this script is responsible for populating the database on production.
-
-//must be run while passing in the database connection string as an argument!
-
+require("dotenv").config();
 const { Client } = require("pg");
+
+const database = process.env.DB_CONNECT_STRING;
 
 // --- create tables/schemas ---
 const users = `CREATE TABLE IF NOT EXISTS users (
@@ -40,9 +40,10 @@ const populateMessage = `INSERT INTO messages (poster_id, message) VALUES (
 // execution
 async function main() {
   console.log("seeding...");
-  console.log(process.argv[0]);
+  // console.log(process.argv[0]);
+
   const client = new Client({
-    connectionString: process.argv[2],
+    connectionString: database,
   });
 
   try {
