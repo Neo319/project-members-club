@@ -12,7 +12,7 @@
   <p>Membership form goes here</p>
   <% if (typeof user !== 'undefined' && user !== null) { %>
   <p>Logged in as user:
-  <p><%= JSON.stringify(user) %></p>
+    <%= user.first_name + " " + user.last_name %>
   </p>
   <form method="POST">
     <label for="code">SECRET PASSCODE: </label>

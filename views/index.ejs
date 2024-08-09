@@ -11,8 +11,10 @@
   <p>Welcome to <%= title %></p>
 
   <% if (typeof user !== 'undefined' && user !== null) { %>
-  <p>Logged in as user:</p>
-  <p><%= JSON.stringify(user) %></p>
+  <p>Logged in as user:
+    <%= user.first_name + " " + user.last_name %>
+  </p>
+
   <br />
 
   <% if (user.membership_status === true) { %>
@@ -40,7 +42,6 @@
       messages.length) { %>
     <ul>
       <% messages.forEach((message) => { %>
-      <span>debug: <%= JSON.stringify(message) %></span>
       <li>
         <p><%= message.message %></p>
 
