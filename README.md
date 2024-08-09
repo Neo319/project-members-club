@@ -8,3 +8,6 @@ In this project, a user who is not logged in will not see anything but the messa
 While this project is small-scale and simple, it is intended to practice database manipulation using PostgreSQL queries.
 
 This project uses Express as its foundation, with EJS views. Passport and bcrpytJS are used for authentication. Express-validator is used for data sanitization of users who sign up.
+
+The live preview deployment on Adaptable.io can be found here: https://castordisaster-project-members.adaptable.app
+The link to the relevant lesson in The Odin Project: https://www.theodinproject.com/lessons/node-path-nodejs-members-only
