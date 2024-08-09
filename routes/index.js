@@ -28,4 +28,6 @@ router.get("/message", userController.message_get);
 
 router.post("/message", userController.message_post);
 
+router.post("/delete/:id", userController.index_delete);
+
 module.exports = router;

@@ -39,8 +39,9 @@ async function addMembership(user, isAdmin) {
 async function getMessages() {
   try {
     const { rows } = await pool.query(
-      `SELECT message, date, first_name FROM messages
-      INNER JOIN users ON messages.poster_id = users.id`
+      `SELECT messages.id AS message_id, messages.message, messages.date, users.first_name
+      FROM messages
+      INNER JOIN users ON messages.poster_id = users.id;`
     );
 
     return rows;
@@ -62,9 +63,19 @@ async function postMessage(message) {
   }
 }
 
+async function deleteMessage(messageId) {
+  try {
+    await pool.query(`DELETE FROM messages WHERE id = $1  `, [messageId]);
+  } catch (err) {
+    console.error("error deleting message", err);
+    throw err;
+  }
+}
+
 module.exports = {
   insertUser,
   addMembership,
   getMessages,
   postMessage,
+  deleteMessage,
 };

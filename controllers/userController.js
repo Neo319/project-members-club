@@ -9,7 +9,7 @@ const passport = require("passport");
 const PASSCODE = process.env.PASSCODE;
 
 // --- render homepage on GET. ---
-exports.index_get = asyncHandler(async (req, res, next) => {
+exports.index_get = asyncHandler(async (req, res) => {
   const messagesResult = await db.getMessages();
 
   res.render("index", {
@@ -20,7 +20,7 @@ exports.index_get = asyncHandler(async (req, res, next) => {
 });
 
 // --- render sign-up page on GET. ---
-exports.sign_up_get = asyncHandler((req, res, next) => {
+exports.sign_up_get = asyncHandler((req, res) => {
   res.render("sign-up-form", { title: "Join the Club" });
 });
 
@@ -94,7 +94,7 @@ exports.sign_up_post = [
 ];
 
 // --- Login page GET. ---
-exports.login_get = (req, res, next) => {
+exports.login_get = (req, res) => {
   res.render("login", { title: "Log In" });
 };
 
@@ -136,7 +136,7 @@ exports.membership_post = [
   //validate and sanitize
   body("passcode").trim().escape(),
 
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
 
     if (errors.length) {
@@ -182,7 +182,7 @@ exports.membership_post = [
 ];
 
 // retrieve message form on GET.
-exports.message_get = function (req, res, next) {
+exports.message_get = function (req, res) {
   res.render("message", { title: "Create New Message", user: req.user });
 };
 
@@ -190,7 +190,7 @@ exports.message_get = function (req, res, next) {
 exports.message_post = [
   body("message").trim().escape(),
 
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -209,3 +209,12 @@ exports.message_post = [
     res.redirect("/");
   }),
 ];
+
+// DELETE messages from message board
+exports.index_delete = asyncHandler(async (req, res) => {
+  const messageId = req.params.id;
+
+  await db.deleteMessage(messageId);
+
+  res.redirect("/");
+});
