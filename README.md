@@ -16,6 +16,10 @@ It is primarily intended to practice the use of databases for storing users and 
 
 ## Deployment
 
+This project is deployed on Adaptable.io.
+
+[See live deployment here](https://castordisaster-project-members.adaptable.app).
+
 ## Usage
 
 In this project, a user who is not logged in will not see anything but the messages that have been posted by all users on the website. If they are logged in, they will be able to 'become a member' by inputting a secret passcode ("sesame") which adds a membership to their user object stored in the database. Only members will be able to see who posted the messages and when they were posted. Further, only Admin users are given permission to delete messages from the database.
